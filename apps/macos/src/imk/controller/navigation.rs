@@ -6,6 +6,7 @@ use qingjian_platform::{LayoutMode, Modifiers};
 pub(super) enum Navigation {
     Candidate(isize),
     Page(isize),
+    PageEdge(bool),
 }
 
 pub(super) fn shortcut(
@@ -27,6 +28,8 @@ pub(super) fn shortcut(
         return None;
     }
     let (horizontal_key, delta) = match key? {
+        'a' => return Some(Navigation::PageEdge(false)),
+        'e' => return Some(Navigation::PageEdge(true)),
         'b' => (true, -1),
         'f' => (true, 1),
         'p' => (false, -1),
@@ -62,6 +65,8 @@ mod tests {
                     ('f', Navigation::Candidate(1)),
                     ('p', Navigation::Page(-1)),
                     ('n', Navigation::Page(1)),
+                    ('a', Navigation::PageEdge(false)),
+                    ('e', Navigation::PageEdge(true)),
                 ],
             ),
             (
@@ -71,6 +76,8 @@ mod tests {
                     ('f', Navigation::Page(1)),
                     ('p', Navigation::Candidate(-1)),
                     ('n', Navigation::Candidate(1)),
+                    ('a', Navigation::PageEdge(false)),
+                    ('e', Navigation::PageEdge(true)),
                 ],
             ),
         ] {
@@ -95,6 +102,7 @@ mod tests {
                 key,
             )
         };
+        assert_eq!(call(false, true, true, ctrl(), Some('a')), None);
         assert_eq!(call(false, true, true, ctrl(), Some('f')), None);
         assert_eq!(call(true, false, true, ctrl(), Some('f')), None);
         assert_eq!(call(true, true, false, ctrl(), Some('f')), None);

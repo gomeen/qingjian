@@ -193,7 +193,7 @@ fn extra_keys(
     }
     if Feature::ExtraCandidateNavigation.here() {
         let enabled = shortcut.extra_candidate_navigation;
-        let checkbox = Checkbox::new(enabled, "Ctrl + F/B/N/P").build(
+        let checkbox = Checkbox::new(enabled, "Ctrl + F/B/N/P/A/E").build(
             ui,
             theme,
             "extra-candidate-navigation",

@@ -376,6 +376,7 @@ impl QingjianInputController {
         if let Some(navigation) = navigation {
             match navigation {
                 navigation::Navigation::Candidate(delta) => self.navigate_candidate(delta, client),
+                navigation::Navigation::PageEdge(last) => self.navigate_page_edge(last, client),
                 navigation::Navigation::Page(delta) => {
                     let focus_changed = host::with(|h| {
                         let changed = h.session.focus != Focus::Candidates;

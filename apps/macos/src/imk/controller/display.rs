@@ -258,6 +258,20 @@ impl QingjianInputController {
         }
     }
 
+    /// 额外导航键跳到当前页的首个或末个候选。
+    pub(super) fn navigate_page_edge(&self, last: bool, client: TextClient<'_>) {
+        let changed = host::with(|h| {
+            let focus_changed = h.session.focus != Focus::Candidates;
+            h.session.focus = Focus::Candidates;
+            let moved = h.session.move_to_page_edge(last);
+            focus_changed || moved
+        })
+        .unwrap_or(false);
+        if changed {
+            self.render(client);
+        }
+    }
+
     /// 左右键。横排矩阵开着、或高亮移动键选了 `←` / `→`，而且有候选时归候选：单行里逐个移动高亮（到页边自动翻页，不展开），展开后按阅读顺序跨行移动——
     /// 上下键被矩阵占了，单行里只剩左右键能挪高亮。规则与 Windows 壳的 `horizontal_key` 一致（把「拼音行 + 候选栏」当成
     /// 一条从左到右的序列走）：`→` 先走光标、到末位溢出成选词；`←` 先退候选、顶在第一个候选上回拼音行。

@@ -22,7 +22,7 @@ pub struct ShortcutConfig {
     /// 候选高亮由 `↑` / `↓` 还是 `←` / `→` 移动（Windows 用）。详见 [`HighlightKeys`]。
     pub highlight_keys: HighlightKeys,
 
-    /// 候选中额外启用 Ctrl + F / B / N / P 导航（macOS）。
+    /// 候选中额外启用 Ctrl + F / B / N / P / A / E 导航（macOS）。
     pub extra_candidate_navigation: bool,
 
     /// 切换当前中英模式的全 / 半角标点（macOS 只切中文模式的），空串禁用，例如 `ctrl+.`。
